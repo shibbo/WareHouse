@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.8.34212.112
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WareHouse", "WareHouse\WareHouse.csproj", "{4AA7F4C3-7C59-45D3-B2B0-9A23FFF3636F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4D9EE1B6-61D2-4A17-A733-38A0C32A02BF} = {4D9EE1B6-61D2-4A17-A733-38A0C32A02BF}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WareHouse.io", "WareHouse.io\WareHouse.io.csproj", "{4D9EE1B6-61D2-4A17-A733-38A0C32A02BF}"
 EndProject

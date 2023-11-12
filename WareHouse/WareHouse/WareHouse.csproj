@@ -12,4 +12,8 @@
     <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.17.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WareHouse.io\WareHouse.io.csproj" />
+  </ItemGroup>
+
 </Project>

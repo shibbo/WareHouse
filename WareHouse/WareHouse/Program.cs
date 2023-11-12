@@ -4,6 +4,8 @@ using Silk.NET.Windowing;
 using Silk.NET.Input;
 using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
+using WareHouse.io;
+using WareHouse.io.archive;
 
 using var window = Window.Create(WindowOptions.Default);
 ImGuiController controller = null;

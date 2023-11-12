@@ -14,7 +14,7 @@ namespace WareHouse.io
             mPosition = 0;
             mIsBigEndian = true;
             mSize = buffer.Length;
-            mEncoding = Encoding.GetEncoding("shift-jis");
+            mEncoding = Encoding.ASCII;
         }
 
         public MemoryFile(byte[] buffer, Encoding encoding)
@@ -247,6 +247,17 @@ namespace WareHouse.io
             Seek(loc);
             byte len = ReadByte();
             ret = ReadString(len);
+            Seek(oldLoc);
+            return ret;
+        }
+
+        public string ReadStringAtNT(int loc)
+        {
+            string ret;
+
+            int oldLoc = Position();
+            Seek(loc);
+            ret = ReadString();
             Seek(oldLoc);
             return ret;
         }
