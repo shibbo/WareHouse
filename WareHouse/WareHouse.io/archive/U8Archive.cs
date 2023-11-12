@@ -7,12 +7,12 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace WareHouse.io.archive
 {
-    public class U8Archive
+    public class U8Archive : IArchive
     {
         public class FileNode
         {
             public bool IsDirectory;
-            public string NodeName;
+            public string? NodeName;
             public uint DataOffsetOrIdx;
             public uint DataSizeOrIdx;
             public List<FileNode> Children = new();
@@ -25,8 +25,6 @@ namespace WareHouse.io.archive
 
         public U8Archive(MemoryFile file)
         {
-            mFile = file;
-
             uint magic = file.ReadUInt32();
 
             if (magic != 0x55AA382D)
@@ -81,7 +79,7 @@ namespace WareHouse.io.archive
             }
         }
 
-        public byte[]? GetFileData(string fileName)
+        public override byte[]? GetFileData(string fileName)
         {
             if (mFiles.ContainsKey(fileName))
             {
@@ -91,7 +89,12 @@ namespace WareHouse.io.archive
             return null;
         }
 
-        public string[] GetFiles(string directory)
+        public override string[] GetFiles()
+        {
+            return mFiles.Keys.ToArray();
+        }
+
+        public override string[] GetFiles(string directory)
         {
             List<string> files = new();
             foreach (string file in mFiles.Keys)
@@ -105,7 +108,7 @@ namespace WareHouse.io.archive
             return files.ToArray();
         }
 
-        public string[] GetFilesWithExt(string ext)
+        public override string[] GetFilesWithExt(string ext)
         {
             List<string> files = new();
             foreach (string file in mFiles.Keys)
@@ -122,7 +125,6 @@ namespace WareHouse.io.archive
         public int mStringPoolOffs;
         public int mDataOffs;
         private uint mCurrentIndex;
-        private MemoryFile mFile;
         public Dictionary<string, U8File> mFiles = new();
     }
 }

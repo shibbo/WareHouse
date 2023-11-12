@@ -6,9 +6,15 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WareHouse", "WareHouse\WareHouse.csproj", "{4AA7F4C3-7C59-45D3-B2B0-9A23FFF3636F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4D9EE1B6-61D2-4A17-A733-38A0C32A02BF} = {4D9EE1B6-61D2-4A17-A733-38A0C32A02BF}
+		{CA10334B-35A2-4B5E-90C5-2461603A81BA} = {CA10334B-35A2-4B5E-90C5-2461603A81BA}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WareHouse.io", "WareHouse.io\WareHouse.io.csproj", "{4D9EE1B6-61D2-4A17-A733-38A0C32A02BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WareHouse.io", "WareHouse.io\WareHouse.io.csproj", "{4D9EE1B6-61D2-4A17-A733-38A0C32A02BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WareHouse.Wii", "WareHouse.Wii\WareHouse.Wii.csproj", "{CA10334B-35A2-4B5E-90C5-2461603A81BA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4D9EE1B6-61D2-4A17-A733-38A0C32A02BF} = {4D9EE1B6-61D2-4A17-A733-38A0C32A02BF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +30,10 @@ Global
 		{4D9EE1B6-61D2-4A17-A733-38A0C32A02BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D9EE1B6-61D2-4A17-A733-38A0C32A02BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D9EE1B6-61D2-4A17-A733-38A0C32A02BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA10334B-35A2-4B5E-90C5-2461603A81BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA10334B-35A2-4B5E-90C5-2461603A81BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA10334B-35A2-4B5E-90C5-2461603A81BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA10334B-35A2-4B5E-90C5-2461603A81BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
