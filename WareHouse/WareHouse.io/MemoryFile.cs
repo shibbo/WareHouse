@@ -172,6 +172,12 @@ namespace WareHouse.io
             return ReadString(len);
         }
 
+        public override string ReadStringLenPrefixU32()
+        {
+            int len = ReadInt32();
+            return ReadString(len);
+        }
+
         public override float ReadSingle()
         {
             if (mPosition + sizeof(float) > GetLength())
@@ -269,6 +275,17 @@ namespace WareHouse.io
             int oldLoc = Position();
             Seek(loc);
             ret = ReadString();
+            Seek(oldLoc);
+            return ret;
+        }
+
+        public override string ReadStringLenPrefixU32At(int loc)
+        {
+            string ret;
+
+            int oldLoc = Position();
+            Seek(loc);
+            ret = ReadStringLenPrefixU32();
             Seek(oldLoc);
             return ret;
         }

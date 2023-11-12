@@ -104,9 +104,11 @@
         /// <returns>The float value.</returns>
         public virtual float ReadSingle() { return 0.0f; }
         public virtual string ReadStringLenPrefix() { return ""; }
+        public virtual string ReadStringLenPrefixU32() { return ""; }
         public virtual string ReadString() { return ""; }
         public virtual string ReadString(int len) { return ""; }
         public virtual string ReadStringAt(int loc) { return ""; }
+        public virtual string ReadStringLenPrefixU32At(int loc) { return ""; }
         public virtual string ReadStringUTF16() { return ""; }
         public virtual void Write(byte val) { }
         public virtual void Write(char val) { }

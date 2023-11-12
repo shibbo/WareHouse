@@ -49,7 +49,7 @@ namespace WareHouse.Wii.brres
             }
         }
 
-        public class ResDictData : IRes
+        public class ResDictData : IResource
         {
             public ResDictData() { }
 

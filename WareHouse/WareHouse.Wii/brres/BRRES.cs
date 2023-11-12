@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,6 +50,9 @@ namespace WareHouse.Wii.bfres
                 file.Seek(dict.Value.DataOffset);
                 uint magic = file.ReadUInt32();
 
+                /* go back 4 bytes since we read our data above */
+                file.Seek(file.Position() - 4);
+
                 switch (magic)
                 {
                     /* MDL0 */
@@ -74,11 +78,10 @@ namespace WareHouse.Wii.bfres
                         break;
                     /* SCN0 */
                     case 0x53434E30:
+                        mSubFiles.Add(dict.Key, new Scene(file));
                         break;
                     /* our default case is that this is a ResDict instead of another subfile type */
                     default:
-                        /* go back 4 bytes since we read our data above */
-                        file.Seek(file.Position() - 4);
                         ResDict subDict = new ResDict(file, true);
                         LoadDictionaryData(subDict, file);
                         break;
@@ -88,5 +91,6 @@ namespace WareHouse.Wii.bfres
 
         ResDict? mResourceDictionary;
         ushort mFileVersion;
+        Dictionary<string, IResource> mSubFiles = new();
     }
 }
