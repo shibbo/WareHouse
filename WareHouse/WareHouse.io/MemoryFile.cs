@@ -228,6 +228,17 @@ namespace WareHouse.io
             return Encoding.Unicode.GetString(dest);
         }
 
+        public override int ReadInt32At(int loc)
+        {
+            int ret;
+
+            int oldLoc = Position();
+            Seek(loc);
+            ret = ReadInt32();
+            Seek(oldLoc);
+            return ret;
+        }
+
         public override uint ReadUInt32At(int loc)
         {
             uint ret;

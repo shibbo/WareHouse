@@ -85,6 +85,12 @@
         /// </summary>
         /// <param name="loc">The location of the integer to read in the stream.</param>
         /// <returns>The read integer.</returns>
+        public virtual int ReadInt32At(int loc) { return 0; }
+        /// <summary>
+        /// Reads a single 32-bit integer from a given offset in the stream.
+        /// </summary>
+        /// <param name="loc">The location of the integer to read in the stream.</param>
+        /// <returns>The read integer.</returns>
         public virtual uint ReadUInt32At(int loc) { return 0; }
         /// <summary>
         /// Reads a given amount of bytes from the stream.
