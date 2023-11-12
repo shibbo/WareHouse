@@ -10,6 +10,7 @@ namespace WareHouse.Wii.brres.SceneRes
 {
     public class ResAnmCameraData : IResourceBase
     {
+        const int FLAG_CAM_TYPE = (1 << 0);
         const int FLAG_POS_X = (1 << 17);
         const int FLAG_POS_Y = (1 << 18);
         const int FLAG_POS_Z = (1 << 19);
@@ -26,12 +27,19 @@ namespace WareHouse.Wii.brres.SceneRes
         const int FLAG_ROT_Y = (1 << 30);
         const int FLAG_ROT_Z = (1 << 31);
 
+        enum CameraType
+        {
+            CameraType_Rotate = 0,
+            CameraType_Aim = 1
+        };
+
         public ResAnmCameraData(MemoryFile file, ushort numFrames) : base(file)
         {
             mProjectionType = file.ReadUInt32();
             mFlags = file.ReadUInt32();
             mUserDataOffs = file.ReadUInt32();
 
+            mCameraType = (CameraType)(mFlags & FLAG_CAM_TYPE);
             mXPosition = new ResAnmData(file, (mFlags & FLAG_POS_X) != 0);
             mYPosition = new ResAnmData(file, (mFlags & FLAG_POS_Y) != 0);
             mZPosition = new ResAnmData(file, (mFlags & FLAG_POS_Z) != 0);
@@ -52,6 +60,7 @@ namespace WareHouse.Wii.brres.SceneRes
         uint mProjectionType;
         uint mFlags;
         uint mUserDataOffs;
+        CameraType mCameraType;
         ResAnmData mXPosition;
         ResAnmData mYPosition;
         ResAnmData mZPosition;
