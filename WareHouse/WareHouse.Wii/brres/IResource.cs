@@ -27,7 +27,7 @@ namespace WareHouse.Wii.brres
             mReferenceNum = file.ReadUInt32();
         }
 
-        public string? mResourceName;
+        public string? mResourceName = "";
         public uint mResourceId;
         public uint mReferenceNum;
     }

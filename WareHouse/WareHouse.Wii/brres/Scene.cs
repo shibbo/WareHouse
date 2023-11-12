@@ -67,6 +67,13 @@ namespace WareHouse.Wii.brres
                 ResAnmCameraData camera = new(file, mSceneInfo.NumAnimFrames);
                 mCameraData.Add(camera.mResourceName, camera);
             }
+
+            file.Seek((int)(basePos + fogDataOffs));
+            for (ushort i = 0; i < mSceneInfo.NumFogs; i++)
+            {
+                ResAnmFogData fog = new(file, mSceneInfo.NumAnimFrames);
+                mFogData.Add(fog.mResourceName, fog);
+            }
         }
 
         public struct ResAnmScnInfoData
@@ -85,5 +92,6 @@ namespace WareHouse.Wii.brres
         ResDict? mResourceDictionary;
         Dictionary<string, ResAnmAmbLightData> mAmbientLightData = new();
         Dictionary<string, ResAnmCameraData> mCameraData = new();
+        Dictionary<string, ResAnmFogData> mFogData = new();
     }
 }
