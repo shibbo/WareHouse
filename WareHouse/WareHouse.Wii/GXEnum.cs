@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace WareHouse.Wii
 {
+    public enum GXTexFmt
+    {
+        GX_TF_I4 = 0x0,
+        GX_TF_I8 = 0x1,
+        GX_TF_IA4 = 0x2,
+        GX_TF_IA8 = 0x3,
+        GX_TF_RGB565 = 0x4,
+        GX_TF_RGB5A3 = 0x5,
+        GX_TF_RGBA8 = 0x6,
+        GX_TF_CMPR = 0xE,
+    }
     public enum GXDistAttnFn
     {
         GX_DA_OFF,

@@ -60,6 +60,7 @@ namespace WareHouse.Wii.bfres
                         break;
                     /* TEX0 */
                     case 0x54455830:
+                        mSubFiles.Add(dict.Key, new Texture(file));
                         break;
                     /* SRT0 */
                     case 0x53525430:
