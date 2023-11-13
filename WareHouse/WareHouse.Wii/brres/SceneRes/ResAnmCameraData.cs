@@ -35,7 +35,7 @@ namespace WareHouse.Wii.brres.SceneRes
 
         public ResAnmCameraData(MemoryFile file, ushort numFrames) : base(file)
         {
-            mProjectionType = file.ReadUInt32();
+            mProjectionType = (GXProjectionType)file.ReadUInt32();
             mFlags = file.ReadUInt32();
             mUserDataOffs = file.ReadUInt32();
 
@@ -57,7 +57,7 @@ namespace WareHouse.Wii.brres.SceneRes
             mOrthoHeight = new ResAnmData(file, (mFlags & FLAG_ORTHOHEIGHT) != 0);
         }
 
-        uint mProjectionType;
+        GXProjectionType mProjectionType;
         uint mFlags;
         uint mUserDataOffs;
         CameraType mCameraType;

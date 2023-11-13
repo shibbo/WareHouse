@@ -9,9 +9,9 @@ namespace WareHouse.Wii.brres.AnmRes
 {
     public class ResColorAnmData
     {
-        public ResColorAnmData(MemoryFile file, ushort frameCount)
+        public ResColorAnmData(MemoryFile file, bool isOneFrame, ushort frameCount)
         {
-            if (frameCount == 1)
+            if (isOneFrame)
             {
                 mColorFrame = file.ReadUInt32();
             }

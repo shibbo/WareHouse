@@ -74,6 +74,20 @@ namespace WareHouse.Wii.brres
                 ResAnmFogData fog = new(file, mSceneInfo.NumAnimFrames);
                 mFogData.Add(fog.mResourceName, fog);
             }
+
+            file.Seek((int)(basePos + lightDataOffs));
+            for (ushort i = 0; i < mSceneInfo.NumLights; i++)
+            {
+                ResAnmLightData light = new(file, mSceneInfo.NumAnimFrames);
+                mAnmLightData.Add(light.mResourceName, light);
+            }
+
+            file.Seek((int)(basePos + lightSetOffs));
+            for (ushort i = 0; i < mSceneInfo.NumLightSets; i++)
+            {
+                ResLightSetData lightSet = new(file);
+                mLightSets.Add(lightSet.mResourceName, lightSet);
+            }
         }
 
         public struct ResAnmScnInfoData
@@ -93,5 +107,7 @@ namespace WareHouse.Wii.brres
         Dictionary<string, ResAnmAmbLightData> mAmbientLightData = new();
         Dictionary<string, ResAnmCameraData> mCameraData = new();
         Dictionary<string, ResAnmFogData> mFogData = new();
+        Dictionary<string, ResAnmLightData> mAnmLightData = new();
+        Dictionary<string, ResLightSetData> mLightSets = new();
     }
 }

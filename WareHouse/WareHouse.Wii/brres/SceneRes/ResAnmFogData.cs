@@ -17,16 +17,14 @@ namespace WareHouse.Wii.brres.SceneRes
         public ResAnmFogData(MemoryFile file, ushort numFrames) : base(file)
         {
             mFlags = file.ReadUInt32();
-            mFogType = file.ReadUInt32();
+            mFogType = (GXFogType)file.ReadUInt32();
             mStartZ = new ResAnmData(file, (mFlags & FLAG_START_Z) != 0);
             mEndZ = new ResAnmData(file, (mFlags & FLAG_END_Z) != 0);
-            bool isConst = (mFlags & FLAG_COLOR) != 0;
-            numFrames = (ushort)(isConst ? 1 : numFrames);
-            mColor = new ResColorAnmData(file, numFrames);
+            mColor = new ResColorAnmData(file, (mFlags & FLAG_COLOR) != 0, numFrames);
         }
 
         uint mFlags;
-        uint mFogType;
+        GXFogType mFogType;
         ResAnmData mStartZ;
         ResAnmData mEndZ;
         ResColorAnmData mColor;

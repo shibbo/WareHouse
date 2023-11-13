@@ -20,13 +20,7 @@ namespace WareHouse.Wii.brres.SceneRes
 
             mHasColor = (mFlags & FLAG_HAS_COLOR) == 1;
             mHasAlpha = (mFlags & FLAG_HAS_ALPHA) == 1;
-
-            if ((mFlags & FLAG_COLOR) == 0)
-            {
-                numAnimFrames = 1;
-            }
-
-            mColorFrames = new(file, numAnimFrames);
+            mColorFrames = new(file, (mFlags & FLAG_COLOR) != 0, numAnimFrames);
         }
 
         uint mFlags;
