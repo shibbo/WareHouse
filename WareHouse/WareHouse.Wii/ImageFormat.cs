@@ -17,15 +17,65 @@ namespace WareHouse.Wii
         {
             switch (format)
             {
+                case GXTexFmt.GX_TF_I4:
+                    return DecodeI4(file, width, height);
                 case GXTexFmt.GX_TF_I8:
                     return DecodeI8(file, width, height);
+                case GXTexFmt.GX_TF_IA4:
+                    return DecodeIA4(file, width, height);
                 case GXTexFmt.GX_TF_IA8:
                     return DecodeIA8(file, width, height);
+                case GXTexFmt.GX_TF_RGB565:
+                    return DecodeRGB565(file, width, height);
+                case GXTexFmt.GX_TF_RGB5A3:
+                    return DecodeRGB5A3(file, width, height);
                 case GXTexFmt.GX_TF_CMPR:
                     return DecodeCMPR(file, width, height);
             }
 
             return null;
+        }
+
+        private static byte[] DecodeI4(MemoryFile file, uint width, uint height)
+        {
+            uint numBlocksW = width / 8;
+            uint numBlocksH = height / 8;
+
+            byte[] data = new byte[width * height * 4];
+
+            for (int yBlock = 0; yBlock < numBlocksH; yBlock++)
+            {
+                for (int xBlock = 0; xBlock < numBlocksW; xBlock++)
+                {
+                    for (int pY = 0; pY < 8; pY++)
+                    {
+                        for (int pX = 0; pX < 8; pX += 2)
+                        {
+                            if ((xBlock * 8 + pX >= width) || (yBlock * 8 + pY >= height)) 
+                            {
+                                continue;
+                            }
+
+                            byte cur = file.ReadByte();
+                            byte t = (byte)((cur & 0xF0) >> 4);
+                            byte t2 = (byte)(cur & 0x0F);
+                            uint destIndex = (uint)(4 * (width * ((yBlock * 8) + pY) + (xBlock * 8) + pX));
+
+                            data[destIndex + 0] = (byte)(t * 0x11);
+                            data[destIndex + 1] = (byte)(t * 0x11);
+                            data[destIndex + 2] = (byte)(t * 0x11);
+                            data[destIndex + 3] = (byte)(t * 0x11);
+
+                            data[destIndex + 4] = (byte)(t2 * 0x11);
+                            data[destIndex + 5] = (byte)(t2 * 0x11);
+                            data[destIndex + 6] = (byte)(t2 * 0x11);
+                            data[destIndex + 7] = (byte)(t2 * 0x11);
+                        }
+                    }
+                }
+            }
+
+            return data;
         }
 
         private static byte[] DecodeI8(MemoryFile file, uint width, uint height)
@@ -63,6 +113,45 @@ namespace WareHouse.Wii
             return output;
         }
 
+        private static byte[] DecodeIA4(MemoryFile file, uint width, uint height)
+        {
+            uint numBlocksW = width / 8;
+            uint numBlocksH = height / 4;
+
+            byte[] data = new byte[width * height * 4];
+
+            for (int yBlock = 0; yBlock < height; yBlock++)
+            {
+                for (int xBlock = 0; xBlock < width; xBlock++)
+                {
+                    for (int pY = 0; pY < 4; pY++)
+                    {
+                        for (int pX = 0; pX < 8; pX++)
+                        {
+                            if ((xBlock * 8 + pX >= width) || (yBlock * 4 + pY >= height))
+                            {
+                                continue;
+                            }
+
+                            byte value = file.ReadByte();
+
+                            byte alpha = (byte)((value & 0xF0) >> 4);
+                            byte lum = (byte)(value & 0x0F);
+
+                            uint destIndex = (uint)(4 * (width * ((yBlock * 4) + pY) + (xBlock * 8) + pX));
+
+                            data[destIndex + 0] = (byte)(lum * 0x11);
+                            data[destIndex + 1] = (byte)(lum * 0x11);
+                            data[destIndex + 2] = (byte)(lum * 0x11);
+                            data[destIndex + 3] = (byte)(alpha * 0x11);
+                        }
+                    }
+                }
+            }
+
+            return data;
+        }
+
         private static byte[] DecodeIA8(MemoryFile file, uint width, uint height)
         {
             uint numBlocksWidth = width / 4;
@@ -90,6 +179,86 @@ namespace WareHouse.Wii
                             decode[destIndex + 2] = byte1;
                             decode[destIndex + 1] = byte1;
                             decode[destIndex + 0] = byte1;
+                        }
+                    }
+                }
+            }
+
+            return decode;
+        }
+
+        private static byte[] DecodeRGB565(MemoryFile file, uint width, uint height)
+        {
+            uint numBlocksWidth = width / 4;
+            uint numBlocksHeight = height / 4;
+
+            byte[] decode = new byte[width * height * 4];
+
+            for (int yBlock = 0; yBlock < numBlocksHeight; yBlock++)
+            {
+                for (int xBlock = 0; xBlock < numBlocksWidth; xBlock++)
+                {
+                    for (int pY = 0; pY < 4; pY++)
+                    {
+                        for (int pX = 0; pX < 4; pX++)
+                        {
+                            uint destIndex = (uint)(4 * (width * ((yBlock * 4) + pY) + (xBlock * 4) + pX));
+                            ushort data = file.ReadUInt16();
+                            decode[destIndex] = (byte)(8 * (data >> 11));
+                            decode[destIndex + 1] = (byte)(4 * ((data >> 5) & 0x3F));
+                            decode[destIndex + 2] = (byte)(8 * (data & 0x1F));
+                            decode[destIndex + 3] = 0xFF;
+                        }
+                    }
+                }
+            }
+
+            return decode;
+        }
+
+        private static byte[] DecodeRGB5A3(MemoryFile file, uint width, uint height)
+        {
+            uint numBlocksWidth = width / 4;
+            uint numBlocksHeight = height / 4;
+
+            byte[] decode = new byte[width * height * 4];
+
+            for (int yBlock = 0; yBlock < numBlocksHeight; yBlock++)
+            {
+                for (int xBlock = 0; xBlock < numBlocksWidth; xBlock++)
+                {
+                    for (int pY = 0; pY < 4; pY++)
+                    {
+                        for (int pX = 0; pX < 4; pX++)
+                        {
+                            uint destIndex = (uint)(4 * (width * ((yBlock * 4) + pY) + (xBlock * 4) + pX));
+                            ushort data = file.ReadUInt16();
+
+                            /* the top bit determines if we have three alpha bits */
+                            bool hasAlpha = (data & 0x8000) == 0;
+                            byte r, g, b, a;
+
+                            if (hasAlpha)
+                            {
+                                /* 0AAARRRRGGGGBBBB */
+                                r = (byte)(0x11 * ((data >> 8) & 0xF));
+                                g = (byte)(0x11 * ((data >> 4) & 0xF));
+                                b = (byte)(0x11 * (data & 0xF));
+                                a = (byte)(0x20 * ((data >> 12) & 0x7));
+                            }
+                            else
+                            {
+                                /* 1RRRRRGGGGGBBBBB */
+                                r = (byte)(0x8 * ((data >> 10) & 0x1F));
+                                g = (byte)(0x8 * ((data >> 5) & 0x1F));
+                                b = (byte)(0x8 * (data & 0x1F));
+                                a = 0xFF;
+                            }
+
+                            decode[destIndex] = r;
+                            decode[destIndex + 1] = g;
+                            decode[destIndex + 2] = b;
+                            decode[destIndex + 3] = a;
                         }
                     }
                 }
