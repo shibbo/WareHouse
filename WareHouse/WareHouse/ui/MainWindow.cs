@@ -118,6 +118,7 @@ namespace WareHouse.ui
                         mCurrentModel = new BRRES(new MemoryFile(File.ReadAllBytes(mSelectedFile)));
                         break;
                     case ".szs":
+                    case ".carc":
                         PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
                         
                         if (FileUtil.IsFileYaz0(mSelectedFile))
@@ -209,7 +210,7 @@ namespace WareHouse.ui
                     if (ImGui.MenuItem("Open File..."))
                     {
                         FileDialog dialog = new FileDialog();
-                        if (dialog.ShowDialog("Select File", "brres,arc,szs"))
+                        if (dialog.ShowDialog("Select File", "brres,arc,carc,szs"))
                         {
                             mSelectedFile = dialog.SelectedFile;
                         }
