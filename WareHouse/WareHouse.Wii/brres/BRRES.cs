@@ -57,6 +57,7 @@ namespace WareHouse.Wii.bfres
                 {
                     /* MDL0 */
                     case 0x4D444C30:
+                        mSubFiles.Add(dict.Key, new Model(file));
                         break;
                     /* TEX0 */
                     case 0x54455830:

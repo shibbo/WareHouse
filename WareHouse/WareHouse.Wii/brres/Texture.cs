@@ -44,12 +44,6 @@ namespace WareHouse.Wii.brres
             file.Seek(basePos + mTexDataOffset);
 
             mImageData = ImageFormat.DecodeImage(mFormat, file, mWidth, mHeight);
-
-            if (mImageData != null)
-            {
-                Image<Rgba32> img = SixLabors.ImageSharp.Image.LoadPixelData<Rgba32>(mImageData, mWidth, mHeight);
-                img.Save($"{mTextureName}.png");
-            }
         }
 
         uint mRevision;

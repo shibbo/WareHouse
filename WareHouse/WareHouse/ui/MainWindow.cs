@@ -117,6 +117,18 @@ namespace WareHouse.ui
                         PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
                         mCurrentModel = new BRRES(new MemoryFile(File.ReadAllBytes(mSelectedFile)));
                         break;
+                    case ".szs":
+                        PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
+                        
+                        if (FileUtil.IsFileYaz0(mSelectedFile))
+                        {
+                            byte[] bytes = File.ReadAllBytes(mSelectedFile);
+                            Yaz0Archive.Decompress(ref bytes);
+                            mCurrentArchive = new U8Archive(new MemoryFile(bytes));
+                            mShowFileSelection = true;
+                        }
+
+                        break;
                 }
             }
 
@@ -197,7 +209,7 @@ namespace WareHouse.ui
                     if (ImGui.MenuItem("Open File..."))
                     {
                         FileDialog dialog = new FileDialog();
-                        if (dialog.ShowDialog("Select File", "brres,arc"))
+                        if (dialog.ShowDialog("Select File", "brres,arc,szs"))
                         {
                             mSelectedFile = dialog.SelectedFile;
                         }

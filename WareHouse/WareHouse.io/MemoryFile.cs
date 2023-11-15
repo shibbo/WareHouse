@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -288,6 +289,21 @@ namespace WareHouse.io
             ret = ReadStringLenPrefixU32();
             Seek(oldLoc);
             return ret;
+        }
+
+        public Vector2 ReadVec2()
+        {
+            float x = ReadSingle();
+            float y = ReadSingle();
+            return new Vector2(x, y);
+        }
+
+        public Vector3 ReadVec3()
+        {
+            float x = ReadSingle();
+            float y = ReadSingle();
+            float z = ReadSingle();
+            return new Vector3(x, y, z);
         }
 
         public override void Write(byte val)

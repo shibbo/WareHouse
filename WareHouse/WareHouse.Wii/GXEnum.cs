@@ -61,4 +61,19 @@ namespace WareHouse.Wii
         GX_FOG_REVEXP = GX_FOG_PERSP_REVEXP,
         GX_FOG_REVEXP2 = GX_FOG_PERSP_REVEXP2
     }
+
+    public enum GXCompCnt
+    {
+        GX_POS_XY = 0,
+        GX_POS_XYZ = 1,
+    }
+
+    public enum GXCompType
+    {
+        GX_U8 = 0,
+        GX_S8 = 1,
+        GX_U16 = 2,
+        GX_S16 = 3,
+        GX_F32 = 4,
+    }
 }
