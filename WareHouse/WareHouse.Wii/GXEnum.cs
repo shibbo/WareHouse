@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace WareHouse.Wii
 {
+    public enum GXCullMode
+    {
+        GX_CULL_NONE,
+        GX_CULL_FRONT,
+        GX_CULL_BACK,
+        GX_CULL_ALL
+    }
     public enum GXTexFmt
     {
         GX_TF_I4 = 0x0,
@@ -75,5 +82,64 @@ namespace WareHouse.Wii
         GX_U16 = 2,
         GX_S16 = 3,
         GX_F32 = 4,
+    }
+
+    public enum GXTexMapID
+    {
+        GX_TEXMAP0 = 0,
+        GX_TEXMAP1 = 1,
+        GX_TEXMAP2 = 2,
+        GX_TEXMAP3 = 3,
+        GX_TEXMAP4 = 4,
+        GX_TEXMAP5 = 5,
+        GX_TEXMAP6 = 6,
+        GX_TEXMAP7 = 7
+    }
+
+    public enum GXTlut
+    {
+        GX_TLUT0 = 0,
+        GX_TLUT1 = 1,
+        GX_TLUT2 = 2,
+        GX_TLUT3 = 3,
+        GX_TLUT4 = 4,
+        GX_TLUT5 = 5,
+        GX_TLUT6 = 6,
+        GX_TLUT7 = 7,
+        GX_TLUT8 = 8,
+        GX_TLUT9 = 9,
+        GX_TLUT10 = 10,
+        GX_TLUT11 = 11,
+        GX_TLUT12 = 12,
+        GX_TLUT13 = 13,
+        GX_TLUT14 = 14,
+        GX_TLUT15 = 15,
+        GX_BIGTLUT0 = 16,
+        GX_BIGTLUT1 = 17,
+        GX_BIGTLUT2 = 18,
+        GX_BIGTLUT3 = 19
+    }
+    public enum GXTexWrapMode
+    {
+        GX_CLAMP = 0,
+        GX_REPEAT = 1,
+        GX_MIRROR = 2
+    }
+
+    public enum GXTexFilter
+    {
+        GX_NEAR = 0,
+        GX_LINEAR = 1,
+        GX_NEAR_MIP_NEAR = 2,
+        GX_LIN_MIP_NEAR = 3,
+        GX_NEAR_MIP_LIN = 4,
+        GX_LIN_MIP_LIN = 5
+    }
+
+    public enum GXAnisotropy
+    {
+        GX_ANISO_1 = 0,
+        GX_ANISO_2 = 1,
+        GX_ANISO_4 = 2
     }
 }

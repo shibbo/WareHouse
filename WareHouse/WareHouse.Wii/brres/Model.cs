@@ -126,6 +126,20 @@ namespace WareHouse.Wii.brres
                     mVtxFurData.Add(kvp.Key, new ResVtxFurVecData(file));
                 }
             }
+
+            // TODO -- Fur Layer Positions
+
+            if (matOffs != 0)
+            {
+                file.Seek(basePos + matOffs);
+                ResDict matDict = new(file, true);
+
+                foreach (KeyValuePair<string, ResDict.ResDictData> kvp in matDict.GetDictData())
+                {
+                    file.Seek(kvp.Value.DataOffset);
+                    mMatData.Add(kvp.Key, new ResMatData(file));
+                }
+            }
         }
 
         Dictionary<string, ResByteCodeData> mCodeData = new();
@@ -135,5 +149,6 @@ namespace WareHouse.Wii.brres
         Dictionary<string, ResVtxClrData> mVtxClrData = new();
         Dictionary<string, ResVtxTexCoordData> mVtxTexCoordData = new();
         Dictionary<string, ResVtxFurVecData> mVtxFurData = new();
+        Dictionary<string, ResMatData> mMatData = new();
     }
 }
