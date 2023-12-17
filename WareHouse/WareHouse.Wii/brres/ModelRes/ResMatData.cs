@@ -7,9 +7,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using WareHouse.io;
+using WareHouse.io.util;
 
 namespace WareHouse.Wii.brres.ModelRes
 {
+    public class ResChanData
+    {
+        public ResChanData(MemoryFile file)
+        {
+            mFlag = file.ReadUInt32();
+            mMatColor = new(file);
+            mAmbColor = new(file);
+            mParamChanCtrlColor = file.ReadUInt32();
+            mParamChanCtrlAlpha = file.ReadUInt32();
+        }
+
+        uint mFlag;
+        GXColor mMatColor;
+        GXColor mAmbColor;
+        uint mParamChanCtrlColor;
+        uint mParamChanCtrlAlpha;
+        
+    }
     public class ResGenModeData
     {
         public ResGenModeData(MemoryFile file)
@@ -68,6 +87,232 @@ namespace WareHouse.Wii.brres.ModelRes
         byte mFogIdx;
         byte[] mIndirectMethod;
         byte[] mNormalMapLight;
+    }
+
+    public class TexSrt
+    {
+        public TexSrt(MemoryFile file)
+        {
+            mSu = file.ReadSingle();
+            mSv = file.ReadSingle();
+            mR = file.ReadSingle();
+            mTu = file.ReadSingle();
+            mTv = file.ReadSingle();
+        }
+
+        float mSu;
+        float mSv;
+        float mR;
+        float mTu;
+        float mTv;
+    }
+
+    public class TexMtxEffect
+    {
+        public TexMtxEffect(MemoryFile file)
+        {
+            mCamera = file.ReadByte();
+            mLight = file.ReadByte();
+            mMapMode = file.ReadByte();
+            mFlags = file.ReadByte();
+            mEffectMatrix = new(file);
+        }
+
+        byte mCamera;
+        byte mLight;
+        byte mMapMode;
+        byte mFlags;
+        Matrix3x4 mEffectMatrix;
+    }
+
+    public class ResTexSrtData
+    {
+        enum MatrixMode
+        {
+            Maya = 0,
+            XSI = 1,
+            Max = 2
+        }
+        public ResTexSrtData(MemoryFile file)
+        {
+            mFlag = file.ReadUInt32();
+            mMatrixMode = (MatrixMode)file.ReadUInt32();
+
+            mTexSrt = new TexSrt[8];
+
+            for (int i = 0; i < 8; i++)
+            {
+                mTexSrt[i] = new(file);
+            }
+
+            mEffect = new TexMtxEffect[8];
+
+            for (int i = 0; i < 8; i++)
+            {
+                mEffect[i] = new(file);
+            }
+        }
+
+        uint mFlag;
+        MatrixMode mMatrixMode;
+        TexSrt[] mTexSrt;
+        TexMtxEffect[] mEffect;
+    }
+
+    public class ResPixDL
+    {
+        public ResPixDL(MemoryFile file)
+        {
+            mAlphaCompare = new byte[5];
+
+            for (int i = 0; i < 5; i++)
+            {
+                mAlphaCompare[i] = file.ReadByte();
+            }
+
+            mZMode = new byte[5];
+
+            for (int i = 0; i < 5; i++)
+            {
+                mZMode[i] = file.ReadByte();
+            }
+
+            mBlendMode = new byte[10];
+
+            for (int i = 0; i < 10; i++)
+            {
+                mBlendMode[i] = file.ReadByte();
+            }
+
+            mSetDstAlpha = new byte[5];
+
+            for (int i = 0; i < 5; i++)
+            {
+                mSetDstAlpha[i] = file.ReadByte();
+            }
+
+            file.Skip(7);
+        }
+
+        byte[] mAlphaCompare;
+        byte[] mZMode;
+        byte[] mBlendMode;
+        byte[] mSetDstAlpha;
+    }
+
+    public class ResTevColorDL
+    {
+        public ResTevColorDL(MemoryFile file)
+        {
+            mTevColor = new byte[3, 20];
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                    mTevColor[i, j] = file.ReadByte();
+                }
+            }
+
+            file.Skip(4);
+
+            mTevKColor = new byte[4, 10];
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    mTevKColor[i, j] = file.ReadByte();
+                }
+            }
+
+            file.Skip(24);
+        }
+
+        byte[,] mTevColor;
+        byte[,] mTevKColor;
+    }
+
+    public class ResIndMtxAndScaleDL
+    {
+        public ResIndMtxAndScaleDL(MemoryFile file)
+        {
+            mIndTexCoordScale = new byte[2, 5];
+
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    mIndTexCoordScale[i, j] = file.ReadByte();
+                }
+            }
+
+            mIndTexMtx0 = new byte[15];
+
+            for (int i = 0; i < 15; i++)
+            {
+                mIndTexMtx0[i] = file.ReadByte();
+            }
+
+            file.Skip(7);
+
+            mIndTexMtx1 = new byte[15];
+
+            for (int i = 0; i < 15; i++)
+            {
+                mIndTexMtx1[i] = file.ReadByte();
+            }
+
+            mIndTexMtx2 = new byte[15];
+
+            for (int i = 0; i < 15; i++)
+            {
+                mIndTexMtx2[i] = file.ReadByte();
+            }
+
+            file.Skip(2);
+        }
+
+        byte[,] mIndTexCoordScale;
+        byte[] mIndTexMtx0;
+        byte[] mIndTexMtx1;
+        byte[] mIndTexMtx2;
+    }
+
+    public class ResTexCoordGenDL
+    {
+        public ResTexCoordGenDL(MemoryFile file)
+        {
+            mTexCoordGen = new byte[8, 18];
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 18; j++)
+                {
+                    mTexCoordGen[i, j] = file.ReadByte();
+                }
+            }
+
+            file.Skip(16);
+        }
+
+        byte[,] mTexCoordGen;
+    }
+
+    public class ResMatDLData
+    {
+        public ResMatDLData(MemoryFile file)
+        {
+            mPixDL = new(file);
+            mTevColorDL = new(file);
+            mIndMtxDL = new(file);
+            mTexCoordGenDL = new(file);
+        }
+
+        ResPixDL mPixDL;
+        ResTevColorDL mTevColorDL;
+        ResIndMtxAndScaleDL mIndMtxDL;
+        ResTexCoordGenDL mTexCoordGenDL;
     }
 
     public class ResTexPlttInfoData
@@ -186,6 +431,8 @@ namespace WareHouse.Wii.brres.ModelRes
             /* this is just data that is setup at runtime */
             mTexObjData = new(file);
             mTlutObjData = new(file);
+            mTexSrtData = new(file);
+            mChanData = new(file);
 
             if (tevDataOffs != 0)
             {
@@ -214,6 +461,12 @@ namespace WareHouse.Wii.brres.ModelRes
             {
                 throw new Exception("you have found userdata. let shibbo know");
             }
+
+            if (matDLOffs != 0)
+            {
+                file.Seek(matDLOffs + basePos);
+                mMatDLData = new(file);
+            }
         }
 
         string mName;
@@ -226,5 +479,8 @@ namespace WareHouse.Wii.brres.ModelRes
         ResMatFurData mMatFurData;
         ResTexObjData mTexObjData;
         ResTlutObjData mTlutObjData;
+        ResTexSrtData mTexSrtData;
+        ResChanData mChanData;
+        ResMatDLData mMatDLData;
     }
 }

@@ -49,4 +49,17 @@ namespace WareHouse.Wii
         uint mLoadTlut0;
         ushort mNumTluts;
     }
+
+    public class GXColor
+    {
+        public GXColor(MemoryFile file)
+        {
+            r = file.ReadByte();
+            g = file.ReadByte();
+            b = file.ReadByte();
+            a = file.ReadByte();
+        }
+
+        byte r, g, b, a;
+    }
 }
