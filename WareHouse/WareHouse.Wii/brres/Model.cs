@@ -141,6 +141,18 @@ namespace WareHouse.Wii.brres
                 }
             }
 
+            if (tevOffs != 0)
+            {
+                file.Seek(basePos + tevOffs);
+                ResDict tevDict = new(file, true);
+
+                foreach (KeyValuePair<string, ResDict.ResDictData> kvp in tevDict.GetDictData())
+                {
+                    file.Seek(kvp.Value.DataOffset);
+                    mTevData.Add(kvp.Key, new(file));
+                }
+            }
+
             if (shpoffs != 0)
             {
                 file.Seek(basePos + shpoffs);
@@ -151,6 +163,24 @@ namespace WareHouse.Wii.brres
                     file.Seek(kvp.Value.DataOffset);
                     mShapeData.Add(kvp.Key, new(file));
                 }
+            }
+
+            if (texNamePltOffs != 0)
+            {
+                file.Seek(basePos + texNamePltOffs);
+                ResDict texDict = new(file, true);
+
+                foreach (KeyValuePair<string, ResDict.ResDictData> kvp in texDict.GetDictData())
+                {
+                    file.Seek(kvp.Value.DataOffset);
+                    mTexPlttInfo.Add(kvp.Key, new(file));
+                }
+            }
+
+            if (pltToTexNameOffs != 0)
+            {
+                file.Seek(basePos + pltToTexNameOffs);
+                ResDict pltDict = new(file, true);
             }
         }
 
@@ -163,5 +193,7 @@ namespace WareHouse.Wii.brres
         Dictionary<string, ResVtxFurVecData> mVtxFurData = new();
         Dictionary<string, ResMatData> mMatData = new();
         Dictionary<string, ResShpData> mShapeData = new();
+        Dictionary<string, ResTevData> mTevData = new();
+        Dictionary<string, ResTexPlttInfoOffsetData> mTexPlttInfo = new();
     }
 }
