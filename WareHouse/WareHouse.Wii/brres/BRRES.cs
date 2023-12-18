@@ -43,7 +43,7 @@ namespace WareHouse.Wii.bfres
             LoadDictionaryData(mResourceDictionary, file);
         }
 
-        private void LoadDictionaryData(ResDict dictionary, MemoryFile file)
+        private void LoadDictionaryData(ResDict dictionary, MemoryFile file, string parent = "")
         {
             foreach (var dict in dictionary.GetDictData())
             {
@@ -53,15 +53,20 @@ namespace WareHouse.Wii.bfres
                 /* go back 4 bytes since we read our data above */
                 file.Seek(file.Position() - 4);
 
+                if (parent != "" && !mSubFiles.ContainsKey(parent))
+                {
+                    mSubFiles.Add(parent, new());
+                }
+
                 switch (magic)
                 {
                     /* MDL0 */
                     case 0x4D444C30:
-                        mSubFiles.Add(dict.Key, new Model(file));
+                        mSubFiles[parent].Add(dict.Key, new Model(file));
                         break;
                     /* TEX0 */
                     case 0x54455830:
-                        mSubFiles.Add(dict.Key, new Texture(file));
+                        mSubFiles[parent].Add(dict.Key, new Texture(file));
                         break;
                     /* SRT0 */
                     case 0x53525430:
@@ -80,12 +85,12 @@ namespace WareHouse.Wii.bfres
                         break;
                     /* SCN0 */
                     case 0x53434E30:
-                        mSubFiles.Add(dict.Key, new Scene(file));
+                        mSubFiles[parent].Add(dict.Key, new Scene(file));
                         break;
                     /* our default case is that this is a ResDict instead of another subfile type */
                     default:
                         ResDict subDict = new ResDict(file, true);
-                        LoadDictionaryData(subDict, file);
+                        LoadDictionaryData(subDict, file, dict.Key);
                         break;
                 }
             }
@@ -93,6 +98,6 @@ namespace WareHouse.Wii.bfres
 
         ResDict? mResourceDictionary;
         ushort mFileVersion;
-        Dictionary<string, IResource> mSubFiles = new();
+        Dictionary<string, Dictionary<string, IResource>> mSubFiles = new();
     }
 }
