@@ -140,6 +140,18 @@ namespace WareHouse.Wii.brres
                     mMatData.Add(kvp.Key, new ResMatData(file));
                 }
             }
+
+            if (shpoffs != 0)
+            {
+                file.Seek(basePos + shpoffs);
+                ResDict shpDict = new(file, true);
+
+                foreach (KeyValuePair<string, ResDict.ResDictData> kvp in shpDict.GetDictData())
+                {
+                    file.Seek(kvp.Value.DataOffset);
+                    mShapeData.Add(kvp.Key, new(file));
+                }
+            }
         }
 
         Dictionary<string, ResByteCodeData> mCodeData = new();
@@ -150,5 +162,6 @@ namespace WareHouse.Wii.brres
         Dictionary<string, ResVtxTexCoordData> mVtxTexCoordData = new();
         Dictionary<string, ResVtxFurVecData> mVtxFurData = new();
         Dictionary<string, ResMatData> mMatData = new();
+        Dictionary<string, ResShpData> mShapeData = new();
     }
 }
