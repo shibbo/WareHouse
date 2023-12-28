@@ -84,8 +84,9 @@ namespace WareHouse.Wii.brres
             TranlateT
         }
 
-        int[] ignoreMaskArray = [ 0x2, 0x2, 0x4, 0x8, 0x8 ];
-        int[] constMaskArray = [ 0x20, 0x40, 0x80, 0x100, 0x200 ];
+        /* both Scale params share the same ignore mask, same with Translate */
+        static readonly int[] ignoreMaskArray = [ 0x2, 0x2, 0x4, 0x8, 0x8 ];
+        static readonly int[] constMaskArray = [ 0x20, 0x40, 0x80, 0x100, 0x200 ];
 
         public ResAnmTexSrtTexData(MemoryFile file)
         {
@@ -96,6 +97,7 @@ namespace WareHouse.Wii.brres
                 if ((mFlags & ignoreMaskArray[i]) != 0)
                 {
                     float defVal = 0.0f;
+                    /* ScaleS and ScaleT are defauled to 1.0f instead of 0.0f */
                     if (i == 0 || i == 1)
                     {
                         defVal = 1.0f;
