@@ -14,7 +14,11 @@ namespace WareHouse.util
 
             byte[] bytes = File.ReadAllBytes(path);
 
-            if (bytes[0] == 'Y' && bytes[1] == 'a' && bytes[2] == 'z' && bytes[3] == '0')
+            if (bytes.Length < 5)
+            {
+                isYaz0 = false;
+            }
+            else if (bytes[0] == 'Y' && bytes[1] == 'a' && bytes[2] == 'z' && bytes[3] == '0')
             {
                 isYaz0 = true;
             }
