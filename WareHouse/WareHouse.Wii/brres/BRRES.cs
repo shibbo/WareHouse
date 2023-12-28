@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using WareHouse.io;
 using WareHouse.Wii.brres;
+using WareHouse.Wii.brres.AnmRes;
 
 namespace WareHouse.Wii.bfres
 {
@@ -62,14 +63,15 @@ namespace WareHouse.Wii.bfres
                 {
                     /* MDL0 */
                     case 0x4D444C30:
-                        mSubFiles[parent].Add(dict.Key, new Model(file));
+                        mSubFiles[parent].Add(dict.Key, new ResMdl(file));
                         break;
                     /* TEX0 */
                     case 0x54455830:
-                        mSubFiles[parent].Add(dict.Key, new Texture(file));
+                        mSubFiles[parent].Add(dict.Key, new ResTex(file));
                         break;
                     /* SRT0 */
                     case 0x53525430:
+                        mSubFiles[parent].Add(dict.Key, new ResAnmTexSrt(file));
                         break;
                     /* CHR0 */
                     case 0x43485230:
@@ -85,7 +87,7 @@ namespace WareHouse.Wii.bfres
                         break;
                     /* SCN0 */
                     case 0x53434E30:
-                        mSubFiles[parent].Add(dict.Key, new Scene(file));
+                        mSubFiles[parent].Add(dict.Key, new ResAnmScn(file));
                         break;
                     /* our default case is that this is a ResDict instead of another subfile type */
                     default:

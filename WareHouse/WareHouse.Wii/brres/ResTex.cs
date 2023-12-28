@@ -10,9 +10,9 @@ using System.IO;
 
 namespace WareHouse.Wii.brres
 {
-    public class Texture : IResource
+    public class ResTex : IResource
     {
-        public Texture(MemoryFile file)
+        public ResTex(MemoryFile file)
         {
             int basePos = file.Position();
 

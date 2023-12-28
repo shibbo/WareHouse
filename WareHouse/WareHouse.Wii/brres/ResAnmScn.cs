@@ -8,9 +8,9 @@ using WareHouse.Wii.brres.SceneRes;
 
 namespace WareHouse.Wii.brres
 {
-    public class Scene : IResource
+    public class ResAnmScn : IResource
     {
-        public Scene(MemoryFile file)
+        public ResAnmScn(MemoryFile file)
         {
             int basePos = file.Position();
             if (file.ReadString(4) != "SCN0")

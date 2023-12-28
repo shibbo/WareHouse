@@ -19,7 +19,7 @@ namespace WareHouse.Wii.brres.AnmRes
             {
                 int savePos = file.Position() + 4;
                 int loc = file.Position() + file.ReadInt32();
-                file.Seek(loc);
+                file.Seek(loc); 
                 mKeyFrameData = new ResKeyFrameAnmData(file);
                 file.Seek(savePos);
             }

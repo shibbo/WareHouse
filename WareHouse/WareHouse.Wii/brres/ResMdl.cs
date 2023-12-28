@@ -9,9 +9,9 @@ using WareHouse.Wii.brres.ModelRes;
 
 namespace WareHouse.Wii.brres
 {
-    public class Model : IResource
+    public class ResMdl : IResource
     {
-        public Model(MemoryFile file)
+        public ResMdl(MemoryFile file)
         {
             int basePos = file.Position();
 
@@ -181,6 +181,11 @@ namespace WareHouse.Wii.brres
             {
                 file.Seek(basePos + pltToTexNameOffs);
                 ResDict pltDict = new(file, true);
+            }
+
+            if (userDataOffs != 0)
+            {
+                throw new Exception("Model::Model() -- User Data is nonzero.");
             }
         }
 
