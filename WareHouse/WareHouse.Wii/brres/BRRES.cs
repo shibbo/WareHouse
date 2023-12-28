@@ -90,6 +90,10 @@ namespace WareHouse.Wii.bfres
                     case 0x53434E30:
                         mSubFiles[parent].Add(dict.Key, new ResAnmScn(file));
                         break;
+                    /* VIS0 */
+                    case 0x56495330:
+                        mSubFiles[parent].Add(dict.Key, new ResAnmVis(file));
+                        break;
                     /* our default case is that this is a ResDict instead of another subfile type */
                     default:
                         ResDict subDict = new ResDict(file, true);
