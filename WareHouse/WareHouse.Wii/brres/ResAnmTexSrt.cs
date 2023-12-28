@@ -38,6 +38,8 @@ namespace WareHouse.Wii.brres
 
             for (int i = 0; i < 11; i++)
             {
+                file.Seek(basePos + 0xC + (i * 4));
+
                 /* TexSRT 0-7 check */
                 if (i < 8)
                 {
@@ -81,7 +83,7 @@ namespace WareHouse.Wii.brres
             ScaleT,
             Rotate,
             TranslateS,
-            TranlateT
+            TranslateT
         }
 
         /* both Scale params share the same ignore mask, same with Translate */
@@ -94,26 +96,38 @@ namespace WareHouse.Wii.brres
 
             for (uint i = 0; i < 5; i++)
             {
+                if (i == 1 && (mFlags & 0x10) != 0)
+                {
+                    continue;
+                }
+
                 if ((mFlags & ignoreMaskArray[i]) != 0)
                 {
                     float defVal = 0.0f;
-                    /* ScaleS and ScaleT are defauled to 1.0f instead of 0.0f */
+                    /* ScaleS and ScaleT are defaulted to 1.0f instead of 0.0f */
                     if (i == 0 || i == 1)
                     {
                         defVal = 1.0f;
                     }
                     mAnms.Add((Target)i, defVal);
-                    continue;
                 }
-
-                bool isConst = false;
-
-                if ((mFlags & constMaskArray[i]) != 0)
+                else
                 {
-                    isConst = true;
+                    bool isConst = false;
+
+                    if ((mFlags & constMaskArray[i]) != 0)
+                    {
+                        isConst = true;
+                    }
+
+                    mAnms.Add((Target)i, new ResAnmData(file, isConst));
                 }
 
-                mAnms.Add((Target)i, new ResAnmData(file, isConst));
+                /* edge case of scale data being uniform */
+                if (i == 0 && (mFlags & 0x10) != 0)
+                {
+                    mAnms[Target.ScaleT] = mAnms[Target.ScaleS];
+                }
             }
         }
 
