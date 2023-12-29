@@ -17,10 +17,10 @@ namespace WareHouse.Wii.brres.AnmRes
             }
             else
             {
+                file.Seek(file.Position() + file.ReadInt32());
                 for (ushort i = 0; i < frameCount; i++)
                 {
-                    uint frame = file.ReadUInt32At((int)(file.Position() + file.ReadUInt32()));
-                    mColorFrames.Add(frame);
+                    mColorFrames.Add(file.ReadUInt32());
                 }
             }
         }
