@@ -94,7 +94,7 @@ namespace WareHouse.Wii.brres.ModelRes
         public NodeMixCommand(MemoryFile file) : base(file)
         {
             mTargetMtxID = file.ReadUInt16();
-            mBlendMtxCount = file.ReadUInt16();
+            mBlendMtxCount = file.ReadByte();
 
             for (ushort i = 0; i < mBlendMtxCount; i++)
             {
@@ -106,7 +106,7 @@ namespace WareHouse.Wii.brres.ModelRes
         }
 
         ushort mTargetMtxID;
-        ushort mBlendMtxCount;
+        byte mBlendMtxCount;
         List<MtxRatio> mMtxRatio = new();
     }
     
