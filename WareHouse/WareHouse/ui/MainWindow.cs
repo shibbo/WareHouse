@@ -102,7 +102,7 @@ namespace WareHouse.ui
 
             DrawMainMenu();
 
-            if (mSelectedFile != "")
+            if (mSelectedFile != "" && !mHasLoadedFile)
             {
                 /* now that we have our file, let's determine what we do from here */
                 string ext = Path.GetExtension(mSelectedFile);
@@ -131,6 +131,8 @@ namespace WareHouse.ui
 
                         break;
                 }
+
+                mHasLoadedFile = true;
             }
 
             if (mShowFileSelection)
@@ -226,5 +228,6 @@ namespace WareHouse.ui
         private IArchive? mCurrentArchive = null;
         private IModel? mCurrentModel = null;
         private bool mShowFileSelection = false;
+        private bool mHasLoadedFile = false;
     }
 }
