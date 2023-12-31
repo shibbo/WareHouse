@@ -75,6 +75,7 @@ namespace WareHouse.Wii.bfres
                         break;
                     /* CHR0 */
                     case 0x43485230:
+                        mSubFiles[parent].Add(dict.Key, new ResAnmChr(file));
                         break;
                     /* PAT0 */
                     case 0x50415430:
