@@ -214,6 +214,7 @@ namespace WareHouse.ui
                         FileDialog dialog = new FileDialog();
                         if (dialog.ShowDialog("Select File", "brres,arc,carc,szs"))
                         {
+                            mHasLoadedFile = false;
                             mSelectedFile = dialog.SelectedFile;
                         }
                     }
