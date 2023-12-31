@@ -212,7 +212,7 @@ namespace WareHouse.Wii.brres
 
         ushort mNumFrames;
         float mInvKeyFrameRange;
-        object mAnimData;
+        object? mAnimData;
     }
 
     public class ResAnmChrAnmData
@@ -353,7 +353,7 @@ namespace WareHouse.Wii.brres
         bool mScaleCompParent;
         bool mClassicScaleOff;
 
-        Dictionary<Target, ResAnmChrAnmData> mAnims = new();
+        Dictionary<Target, ResAnmChrAnmData?> mAnims = new();
     }
 
     public class ResAnmChr : IResource

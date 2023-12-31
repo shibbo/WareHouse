@@ -118,7 +118,7 @@ namespace WareHouse.Wii.brres
 
         string mName;
         uint mFlags;
-        Dictionary<Target, ResAnmTexPatAnmData> mAnims = new();
+        Dictionary<Target, ResAnmTexPatAnmData?> mAnims = new();
     }
 
     public class ResAnmTexPat : IResource

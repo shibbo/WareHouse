@@ -77,7 +77,7 @@ namespace WareHouse.Wii.brres
 
         string mName;
         uint mFlags;
-        Dictionary<Target, ResAnmClrAnmData> mAnims = new();
+        Dictionary<Target, ResAnmClrAnmData?> mAnims = new();
     }
 
     public class ResAnmClr : IResource

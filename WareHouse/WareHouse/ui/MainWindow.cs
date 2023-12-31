@@ -173,7 +173,7 @@ namespace WareHouse.ui
             {
                 string ext = Path.GetExtension(file);
 
-                if (nwFiles.Contains(ext)) {
+                if (nwFiles != null && nwFiles.Contains(ext)) {
                     hasNWFiles = true;
                     break;
                 }

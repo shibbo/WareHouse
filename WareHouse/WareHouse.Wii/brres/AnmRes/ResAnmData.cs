@@ -26,7 +26,7 @@ namespace WareHouse.Wii.brres.AnmRes
         }
 
         float mConst;
-        ResKeyFrameAnmData mKeyFrameData;
+        ResKeyFrameAnmData? mKeyFrameData;
     }
 
     public class ResKeyFrameAnmData

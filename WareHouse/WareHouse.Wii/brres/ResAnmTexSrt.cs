@@ -72,7 +72,7 @@ namespace WareHouse.Wii.brres
         string mName;
         uint mFlags;
         uint mIndFlags;
-        List<ResAnmTexSrtTexData> mTexData = new(11);
+        List<ResAnmTexSrtTexData?> mTexData = new(11);
     }
 
     public class ResAnmTexSrtTexData
