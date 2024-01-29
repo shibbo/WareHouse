@@ -16,6 +16,7 @@ using WareHouse.io.archive;
 using WareHouse.Wii.bfres;
 using Silk.NET.Maths;
 using Silk.NET.Vulkan;
+using WareHouse.Wii.brsar;
 
 namespace WareHouse.ui
 {
@@ -117,6 +118,10 @@ namespace WareHouse.ui
                         PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
                         mCurrentModel = new BRRES(new MemoryFile(File.ReadAllBytes(mSelectedFile)));
                         break;
+                    case ".brsar":
+                        PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
+                        mCurrentSoundArchive = new BRSAR(new(File.ReadAllBytes(mSelectedFile)));
+                        break;
                     case ".szs":
                     case ".carc":
                         PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
@@ -212,7 +217,7 @@ namespace WareHouse.ui
                     if (ImGui.MenuItem("Open File..."))
                     {
                         FileDialog dialog = new FileDialog();
-                        if (dialog.ShowDialog("Select File", "brres,arc,carc,szs"))
+                        if (dialog.ShowDialog("Select File", "brres,brsar,arc,carc,szs"))
                         {
                             mHasLoadedFile = false;
                             mSelectedFile = dialog.SelectedFile;
@@ -228,6 +233,7 @@ namespace WareHouse.ui
         private string mSelectedFile = "";
         private IArchive? mCurrentArchive = null;
         private IModel? mCurrentModel = null;
+        private ISoundArchive? mCurrentSoundArchive = null;
         private bool mShowFileSelection = false;
         private bool mHasLoadedFile = false;
     }
