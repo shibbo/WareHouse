@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WareHouse.io;
 using WareHouse.Wii.brsar.info;
+using FileInfo = WareHouse.Wii.brsar.info.FileInfo;
 
 namespace WareHouse.Wii.brsar
 {
@@ -33,7 +34,7 @@ namespace WareHouse.Wii.brsar
             DataRef soundDataRef = new(file);
             DataRef soundBankRef = new(file);
             DataRef playerInfRef = new(file);
-            DataRef collectionTableRef = new(file);
+            DataRef fileTableRef = new(file);
             DataRef groupTableRef = new(file);
             DataRef soundArchiveRef = new(file);
 
@@ -68,9 +69,43 @@ namespace WareHouse.Wii.brsar
                 file.Seek(basePos + (int)r.GetValue());
                 mBankInfo.Add(new(file));
             }
+
+            /* player data */
+            file.Seek(basePos + (int)playerInfRef.GetValue());
+            int playerCount = file.ReadInt32();
+            List<DataRef> playerInfoRefs = new();
+
+            for (int i = 0; i < playerCount; i++)
+            {
+                playerInfoRefs.Add(new(file));
+            }
+
+            foreach (DataRef r in playerInfoRefs)
+            {
+                file.Seek(basePos + (int)r.GetValue());
+                mPlayerInfo.Add(new(file));
+            }
+
+            /* file info */
+            file.Seek(basePos + (int)fileTableRef.GetValue());
+            int fileInfoCount = file.ReadInt32();
+            List<DataRef> fileinfoRefs = new();
+
+            for (int i = 0; i < fileInfoCount; i++)
+            {
+                fileinfoRefs.Add(new(file));
+            }
+
+            foreach (DataRef r in fileinfoRefs)
+            {
+                file.Seek(basePos + (int)r.GetValue());
+                mFileInfo.Add(new(file, basePos));
+            }
         }
 
         List<SoundCommonInfo> mSoundInfo = new();
         List<BankInfo> mBankInfo = new();
+        List<PlayerInfo> mPlayerInfo = new();
+        List<FileInfo> mFileInfo = new();
     }
 }
