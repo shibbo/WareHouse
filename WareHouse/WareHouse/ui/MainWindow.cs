@@ -17,6 +17,7 @@ using WareHouse.Wii.bfres;
 using Silk.NET.Maths;
 using Silk.NET.Vulkan;
 using WareHouse.Wii.brsar;
+using WareHouse.Wii.brlyt;
 
 namespace WareHouse.ui
 {
@@ -107,31 +108,52 @@ namespace WareHouse.ui
             {
                 /* now that we have our file, let's determine what we do from here */
                 string ext = Path.GetExtension(mSelectedFile);
+                byte[] bytes = File.ReadAllBytes(mSelectedFile);
                 switch (ext)
                 {
                     case ".arc":
                         PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
-                        mCurrentArchive = new U8Archive(new MemoryFile(File.ReadAllBytes(mSelectedFile)));
+
+                        if (FileUtil.IsFileYaz0(mSelectedFile))
+                        {
+                            Yaz0Archive.Decompress(ref bytes);
+                        }
+
+                        if (FileUtil.IsFileRARC(ref bytes))
+                        {
+                            mCurrentArchive = new RARCArchive(new MemoryFile(bytes));
+                        }
+                        else if (FileUtil.IsFileU8(ref bytes))
+                        {
+                            mCurrentArchive = new U8Archive(new MemoryFile(bytes));
+                        }
+                        
                         mShowFileSelection = true;
                         break;
                     case ".brres":
                         PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
-                        mCurrentModel = new BRRES(new MemoryFile(File.ReadAllBytes(mSelectedFile)));
+                        mCurrentModel = new BRRES(new MemoryFile(bytes));
                         break;
                     case ".brsar":
                         PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
-                        mCurrentSoundArchive = new BRSAR(new(File.ReadAllBytes(mSelectedFile)));
+                        mCurrentSoundArchive = new BRSAR(new(bytes));
+                        break;
+                    case ".brlyt":
+                        PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
+                        mCurrentLayout = new BRLYT(new(bytes));
                         break;
                     case ".szs":
                     case ".carc":
                         PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
-                        
+
                         if (FileUtil.IsFileYaz0(mSelectedFile))
                         {
-                            byte[] bytes = File.ReadAllBytes(mSelectedFile);
                             Yaz0Archive.Decompress(ref bytes);
-                            mCurrentArchive = new U8Archive(new MemoryFile(bytes));
                             mShowFileSelection = true;
+                        }
+                        else
+                        {
+                            mCurrentArchive = new U8Archive(new MemoryFile(bytes));
                         }
 
                         break;
@@ -192,14 +214,18 @@ namespace WareHouse.ui
             foreach (string file in files)
             {
                 if (ImGui.Selectable(file, true, ImGuiSelectableFlags.AllowDoubleClick)) {
+                    byte[]? fileData = mCurrentArchive.GetFileData(file) ?? throw new Exception("MainWindow::DrawFileSelect() -- File data is null.");
+
                     switch (PlatformUtil.GetPlatform())
                     {
                         case PlatformUtil.Platform.RVL:
                             switch (Path.GetExtension(file))
                             {
                                 case ".brres":
-                                    byte[]? fileData = mCurrentArchive.GetFileData(file) ?? throw new Exception("MainWindow::DrawFileSelect() -- File data is null.");
                                     mCurrentModel = new BRRES(new MemoryFile(fileData));
+                                    break;
+                                case ".brlyt":
+                                    mCurrentLayout = new BRLYT(new MemoryFile(fileData));
                                     break;
                             }
                             break;
@@ -217,7 +243,7 @@ namespace WareHouse.ui
                     if (ImGui.MenuItem("Open File..."))
                     {
                         FileDialog dialog = new FileDialog();
-                        if (dialog.ShowDialog("Select File", "brres,brsar,arc,carc,szs"))
+                        if (dialog.ShowDialog("Select File", "brres,brsar,brlyt,arc,carc,szs"))
                         {
                             mHasLoadedFile = false;
                             mSelectedFile = dialog.SelectedFile;
@@ -234,6 +260,7 @@ namespace WareHouse.ui
         private IArchive? mCurrentArchive = null;
         private IModel? mCurrentModel = null;
         private ISoundArchive? mCurrentSoundArchive = null;
+        private ILayout? mCurrentLayout = null;
         private bool mShowFileSelection = false;
         private bool mHasLoadedFile = false;
     }

@@ -25,5 +25,25 @@ namespace WareHouse.util
 
             return isYaz0;
         }
+
+        public static bool IsFileRARC(ref byte[] bytes)
+        {
+            if (bytes[0] == 'R' && bytes[1] == 'A' && bytes[2] == 'R' && bytes[3] == 'C')
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsFileU8(ref byte[] bytes)
+        {
+            if (bytes[0] == 'U' && bytes[1] == '8')
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
