@@ -38,7 +38,7 @@ namespace WareHouse.util
 
         public static bool IsFileU8(ref byte[] bytes)
         {
-            if (bytes[0] == 'U' && bytes[1] == '8')
+            if (bytes[0] == 0x55 && bytes[1] == 0xAA && bytes[2] == 0x38)
             {
                 return true;
             }
