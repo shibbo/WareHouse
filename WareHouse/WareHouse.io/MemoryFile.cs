@@ -291,14 +291,14 @@ namespace WareHouse.io
             return ret;
         }
 
-        public Vector2 ReadVec2()
+        public override Vector2? ReadVec2()
         {
             float x = ReadSingle();
             float y = ReadSingle();
             return new Vector2(x, y);
         }
 
-        public Vector3 ReadVec3()
+        public override Vector3? ReadVec3()
         {
             float x = ReadSingle();
             float y = ReadSingle();

@@ -88,11 +88,11 @@ namespace WareHouse.Wii.brres.ModelRes
         public uint mFlags;
         Billboard mBillboard;
         public uint mBillboardRefNodeID;
-        Vector3 mScale;
-        Vector3 mRotation;
-        Vector3 mTranslation;
-        Vector3 mVolumeMin;
-        Vector3 mVolumeMax;
+        Vector3? mScale;
+        Vector3? mRotation;
+        Vector3? mTranslation;
+        Vector3? mVolumeMin;
+        Vector3? mVolumeMax;
         int mUserDataOffs;
         Matrix3x4 mModelMtx;
         Matrix3x4 mInvModelMtx;

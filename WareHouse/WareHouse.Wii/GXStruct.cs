@@ -60,6 +60,24 @@ namespace WareHouse.Wii
             a = file.ReadByte();
         }
 
-        byte r, g, b, a;
+        public GXColor()
+        {
+
+        }
+
+        public byte r, g, b, a;
+    }
+
+    public class GXColorS10
+    {
+        public GXColorS10(MemoryFile file)
+        {
+            r = file.ReadInt16();
+            g = file.ReadInt16();
+            b = file.ReadInt16();
+            a = file.ReadInt16();
+        }
+
+        short r, g, b, a;
     }
 }

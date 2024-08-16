@@ -69,8 +69,8 @@ namespace WareHouse.Wii.brres.ModelRes
         byte mFrac;
         byte mStride;
         ushort mNumVerts;
-        Vector3 mMin;
-        Vector3 mMax;
+        Vector3? mMin;
+        Vector3? mMax;
 
         List<Vector3> mVerticies = new();
     }

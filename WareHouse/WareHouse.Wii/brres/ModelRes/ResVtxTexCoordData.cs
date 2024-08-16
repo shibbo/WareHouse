@@ -70,8 +70,8 @@ namespace WareHouse.Wii.brres.ModelRes
         byte mFrac;
         byte mStride;
         ushort mNumTexCoord;
-        Vector2 mMin;
-        Vector2 mMax;
+        Vector2? mMin;
+        Vector2? mMax;
         List<Vector2> mTexCoords = new();
     }
 }

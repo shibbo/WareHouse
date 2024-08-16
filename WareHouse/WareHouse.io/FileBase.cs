@@ -1,4 +1,6 @@
-﻿namespace WareHouse.io
+﻿using System.Numerics;
+
+namespace WareHouse.io
 {
     public class FileBase : IDisposable
     {
@@ -110,6 +112,8 @@
         public virtual string ReadStringAt(int loc) { return ""; }
         public virtual string ReadStringLenPrefixU32At(int loc) { return ""; }
         public virtual string ReadStringUTF16() { return ""; }
+        public virtual Vector2? ReadVec2() { return null; }
+        public virtual Vector3? ReadVec3() { return null; }
         public virtual void Write(byte val) { }
         public virtual void Write(char val) { }
         public virtual void Write(short val) { }

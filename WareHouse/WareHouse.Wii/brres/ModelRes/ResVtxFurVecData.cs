@@ -29,6 +29,6 @@ namespace WareHouse.Wii.brres.ModelRes
         string mName;
         uint mID;
         ushort mVecCount;
-        List<Vector3> mFurArray = new();
+        List<Vector3?> mFurArray = new();
     }
 }
