@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WareHouse.io
 {
-    public interface ILayout{}
-    public interface ILayoutAnimation {}
+    public interface IImageContainer
+    {
+    }
 }

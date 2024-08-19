@@ -230,7 +230,7 @@ namespace WareHouse.Wii.brlyt
         ushort mBOM;
         ushort mVersion;
         ushort mBlockCount;
-        Layout mLayout;
+        public Layout mLayout;
         Pane? mRootPane = null;
         Group? mRootGroup = null;
         List<string> mTextureList = new();
@@ -254,8 +254,8 @@ namespace WareHouse.Wii.brlyt
             mHeight = file.ReadSingle();
         }
 
-        byte mOriginType;
-        float mWidth;
-        float mHeight;
+        public byte mOriginType;
+        public float mWidth;
+        public float mHeight;
     }
 }

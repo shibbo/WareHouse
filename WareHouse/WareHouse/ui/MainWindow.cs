@@ -18,6 +18,8 @@ using Silk.NET.Maths;
 using Silk.NET.Vulkan;
 using WareHouse.Wii.brsar;
 using WareHouse.Wii.brlyt;
+using WareHouse.ui.widgets.wii;
+using WareHouse.Wii;
 
 namespace WareHouse.ui
 {
@@ -142,6 +144,10 @@ namespace WareHouse.ui
                         PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
                         mCurrentLayout = new BRLYT(new(bytes));
                         break;
+                    case ".brlan":
+                        PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
+                        mCurrentLayoutAnim = new BRLAN(new(bytes));
+                        break;
                     case ".szs":
                     case ".carc":
                         PlatformUtil.SetPlatform(PlatformUtil.Platform.RVL);
@@ -165,6 +171,15 @@ namespace WareHouse.ui
             if (mShowFileSelection)
             {
                 DrawFileSelect();
+            }
+
+            if (mCurrentLayout != null)
+            {
+                switch (PlatformUtil.GetPlatform()) {
+                    case PlatformUtil.Platform.RVL:
+                        LayoutWidget.DrawUI(gl, Path.GetFileName(mSelectedFile), mCurrentLayout as BRLYT);
+                        break;
+                }
             }
 
             gl.Viewport(mWindow.FramebufferSize);
@@ -227,10 +242,31 @@ namespace WareHouse.ui
                                 case ".brlyt":
                                     mCurrentLayout = new BRLYT(new MemoryFile(fileData));
                                     break;
+                                case ".brlan":
+                                    mCurrentLayoutAnim = new BRLAN(new MemoryFile(fileData));
+                                    break;
                             }
                             break;
                     }
                 }
+
+                switch (PlatformUtil.GetPlatform())
+                {
+                    case PlatformUtil.Platform.RVL:
+                        if (Path.GetExtension(file) == ".tpl")
+                        {
+                            string name = Path.GetFileNameWithoutExtension(file);
+                            if (!mImageContainer.ContainsKey(name)) {
+                                byte[]? fileData = mCurrentArchive.GetFileData(file);
+                                mImageContainer.Add(name, new TPL(new MemoryFile(fileData)));
+                            }
+
+                            break;
+                        }
+
+                        break;
+                    }
+                
             }
         }
 
@@ -243,7 +279,7 @@ namespace WareHouse.ui
                     if (ImGui.MenuItem("Open File..."))
                     {
                         FileDialog dialog = new FileDialog();
-                        if (dialog.ShowDialog("Select File", "brres,brsar,brlyt,arc,carc,szs"))
+                        if (dialog.ShowDialog("Select File", "brres,brsar,brlyt,brlan,arc,carc,szs"))
                         {
                             mHasLoadedFile = false;
                             mSelectedFile = dialog.SelectedFile;
@@ -261,6 +297,8 @@ namespace WareHouse.ui
         private IModel? mCurrentModel = null;
         private ISoundArchive? mCurrentSoundArchive = null;
         private ILayout? mCurrentLayout = null;
+        private ILayoutAnimation? mCurrentLayoutAnim = null;
+        private Dictionary<string, IImageContainer> mImageContainer = new();
         private bool mShowFileSelection = false;
         private bool mHasLoadedFile = false;
     }
